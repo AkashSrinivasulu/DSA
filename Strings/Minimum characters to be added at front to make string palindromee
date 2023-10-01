@@ -1,0 +1,102 @@
+//{ Driver Code Starts
+/* Driver program to test above function */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+public:
+    int minChar(string str){
+        //Write your code here
+        
+        // using two pointers
+        
+        /*int n = str.size();
+        int l = 0, r = n-1, len = 0;
+        
+        
+        while(l <= r){
+            
+            if(str[l] == str[r]){
+                
+                l++, r--;
+            }
+            
+            else{
+                
+                len++;
+                
+                // start comparison from beginning again
+                // omit chars from last
+                l = 0;
+                r = n - (len + 1);
+            }
+        }
+        
+        return len;*/
+        
+        
+        // using KMP algo
+        // make string as "str + ? + rev(str)"
+        // fill lps array, last index gives the len of longest suffix 
+        // of reversed string which is prefix of actual string.
+        // meaning these many chars already form a palindrome.
+        // so, subtract this nuym from original string length to get num of chars to add at front
+        
+        string temp = str + '$';
+        
+        reverse(str.begin(), str.end());
+        
+        temp += str;
+        
+        int n = temp.size();
+        
+        int lps[n] = {0};
+        lps[0] = 0;
+        
+        int i = 1, len = 0;
+        
+        while(i < n){
+            
+            if(temp[i] == temp[len]){
+                
+                len ++;
+                lps[i] = len;
+                i++;
+            }
+            
+            else{
+                
+                if(len != 0){
+                    len = lps[len-1];
+                }
+                else{
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+        
+        return (str.size() - lps[n-1]);
+    }
+};
+
+
+//{ Driver Code Starts.
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    string str;
+	    cin >> str;
+	    Solution ob;
+	    int ans = ob.minChar(str);
+	    cout << ans<<endl;
+	}
+	return 0;
+}
+
+// } Driver Code Ends
