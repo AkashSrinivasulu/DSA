@@ -1,0 +1,100 @@
+//{ Driver Code Starts
+/* Driver program to test above function */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+//User function Template for C++
+class Solution{
+  public:
+  
+    void Inorder(vector<int>&A, int ind, int n, vector<int> &in){
+        
+        if(ind >= n) return;
+        
+        Inorder(A, ind*2+1, n, in);
+        
+        in.push_back(A[ind]);
+        
+        Inorder(A, ind*2+2, n, in);
+    }
+    
+    int minSwaps(vector<int> &in){
+        
+        // form value, index pairs
+        
+        vector<pair<int, int>> A;
+        
+        for(int i=0; i<in.size(); i++){
+            
+            A.push_back({in[i], i});
+        }
+        
+        sort(A.begin(), A.end());
+        
+        int swaps = 0;
+        
+        for(int i=0; i<A.size(); i++){
+            
+            // if elem pos is same as sorted pos, continue
+            if(A[i].second == i) continue;
+            
+            else{
+                
+                swap(A[i].first, A[A[i].second].first);
+                swap(A[i].second, A[A[i].second].second);
+            }
+            
+            // even after swapping, if pos is not same as sorted pos, stay at same elem to do further swapping
+            if(A[i].second != i) i--;
+            
+            swaps ++;
+            
+        }
+        
+        return swaps;
+    }
+    
+    
+    int minSwaps(vector<int>&A, int n){
+        //Write your code here
+        
+        // find inorder traversal of the iven tree
+        // inorder of binary tree should be sorted
+        // so, min of no of swaps required to sort the inorder is ans
+        // do selection sort and count the no of swaps ----> may go upto O(n^2)
+        
+        
+        vector<int> in;
+        
+        Inorder(A, 0, n, in);
+        
+        
+        return minSwaps(in);
+    }
+    
+    
+};
+
+//{ Driver Code Starts.
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin >> n;
+	    vector<int>A(n);
+	    for(int i = 0 ; i < n; i++){
+	        cin >> A[i];
+	    }
+	    Solution ob;
+	    int ans = ob.minSwaps(A, n);
+	    cout << ans<<endl;
+	}
+	return 0;
+}
+
+// } Driver Code Ends
