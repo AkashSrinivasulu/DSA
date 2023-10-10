@@ -1,0 +1,51 @@
+string minWindow(string S, string T)
+{
+	// Write your Code here
+
+	int s1 = S.size();
+	int s2 = T.size();
+
+	int r = 0, t = 0;
+	int start = -1, end = -1;
+	int minLen = INT_MAX;
+	while(r < s1){
+
+		if(S[r] == T[t]){
+
+			t++;
+
+			// if string is convered
+			if(t == s2){
+
+				end = r+1;
+				t--;
+				while(t >= 0){
+
+					if(S[r] == T[t]){
+						//r--;
+						t--;
+					}
+
+					r--;
+				}
+
+				// move r and t to next char
+				r++, t++;
+
+				//find min len
+
+				if(end-r < minLen){
+					minLen = end-r;
+					start = r;
+				}
+
+			}
+
+		}
+
+		r++;
+	}
+
+	if(start == -1) return "";
+	return S.substr(start, minLen);
+}
