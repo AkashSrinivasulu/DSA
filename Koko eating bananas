@@ -1,0 +1,43 @@
+int totalHrs(int h, vector<int> &v){
+
+    int tot = 0;
+
+    for(int i=0; i<v.size(); i++){
+
+        tot += ceil((double)v[i] / (double)h);
+    }
+
+    return tot;
+}
+
+int minimumRateToEatBananas(vector<int> v, int h) {
+    // Write Your Code Here
+
+
+    // koko can eat min 1 banana in an hr or max the max value of array in an hr
+    int l = 1;
+    int r = -1e8;
+
+    for(int i=0; i<v.size(); i++){
+
+        r = max(r, v[i]);
+        //r += v[i];
+    }
+
+
+    while(l <= r){
+
+        int mid = (l+r)/2;
+
+        int t = totalHrs(mid, v);
+
+        if(t <= h){
+
+            r = mid-1;
+        }
+
+        else l = mid+1;
+    }
+
+    return l;
+}
