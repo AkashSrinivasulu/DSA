@@ -1,0 +1,51 @@
+bool searchNext(vector<vector<char>> &board, string &word, int i, int j, int ind, int n, int m){
+
+    if(ind == word.size()) return true;
+
+    // check all the conditions of false
+
+    if(i < 0 or i == n or j<0 or j == m or board[i][j] != word[ind] or board[i][j] == '#')
+        return false;
+
+    // save char
+
+    char c = board[i][j];
+    board[i][j] = '#';
+    // search all 4 directions
+
+    bool top = searchNext(board, word, i-1, j, ind+1, n, m);
+
+    bool right = searchNext(board, word, i, j+1, ind+1, n, m);
+
+    bool down = searchNext(board, word, i+1, j, ind+1, n, m);
+
+    bool left = searchNext(board, word, i, j-1, ind+1, n, m);
+
+    // back track
+    board[i][j] = c;
+
+    return top or right or down or left;
+}
+
+
+bool present(vector<vector<char>> &board, string &word, int n, int m) 
+{
+    // Write your code here.
+
+    // DOnno where to start from, so check every cell for starting index
+
+    int ind = 0;
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+
+            if(board[i][j] == word[ind]){
+
+                if(searchNext(board, word, i, j, ind, n, m))
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
