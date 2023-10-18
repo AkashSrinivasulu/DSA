@@ -1,0 +1,47 @@
+void form(int ind, string s, vector<string> temp, vector<vector<string>> &ans, unordered_map<string, int> &dic){
+
+    if(ind == s.size()){
+
+        ans.push_back(temp);
+        return;
+    }
+
+    for(int i = ind; i<s.size(); i++){
+
+        string sub = s.substr(ind, i-ind+1);
+        if(dic.find(sub) != dic.end()){
+            temp.push_back(s.substr(ind, i-ind+1));
+            form(i+1, s, temp, ans, dic);
+            temp.pop_back();
+        }
+    }
+}
+
+
+vector<string> getAllValidSentences(string &s, vector<string> &dict)
+{
+    //  write your code here.
+
+    unordered_map<string, int> dic;
+
+    for(auto word : dict){
+
+        dic[word] = 1;
+    }
+
+    vector<vector<string>> ans;
+    vector<string> temp;
+
+    form(0, s, temp, ans, dic);
+
+    vector<string> res;
+    for(auto it : ans){
+        string sen = "";
+        for(auto it1 : it){
+            sen += it1+' ';
+        }
+        res.push_back(sen);
+    }
+
+    return res;
+}
