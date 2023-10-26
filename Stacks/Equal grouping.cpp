@@ -1,3 +1,12 @@
+/*
+Group integers to gether. Let's call integers intergers in the range [2^i, 2^(i+1)-1] belong to same group.
+Given an array, in one operation we can select any even size subarray in which all elements belong to same group
+and delete the subarray. Find the min size of array after doing some operations.
+
+*/
+
+
+
 // Use stacks when the question is to delete sub arays or array elements and continue operations on remining array elements
 
 class Solution{
